@@ -1,5 +1,6 @@
 import math
 from tkinter import *
+import winsound
 
 # ---------------------------- CONSTANTS ------------------------------- #
 PINK = "#e2979c"
@@ -45,11 +46,14 @@ def count_down(counter):
 
     canvas.itemconfig(canvas_text,text=f"{counter_min}:{counter_sec}")
     if counter >= 0 and task > 0:
-        window.after(5,count_down,counter-1)
+        window.after(1000,count_down,counter-1)
+        if counter < 10:
+            winsound.Beep(1000, 440)
     else:
         if task != 0:
             task += 1
             check_mark.config(text="✓" * math.floor(task / 2))
+
             if task % 8 == 0:
                 counter = LONG_BREAK_MIN*60
             else:
@@ -57,7 +61,7 @@ def count_down(counter):
                     counter = SHORT_BREAK_MIN*60
                 else:
                     counter = WORK_MIN*60
-            window.after(5,count_down,counter)
+            window.after(1000,count_down,counter)
         else:
             canvas.itemconfig(canvas_text, text=f"00:00")
             timer_text.config(text="Timer", fg=GREEN)
